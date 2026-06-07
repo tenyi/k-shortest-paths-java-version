@@ -173,6 +173,10 @@ public class DijkstraShortestPathAlg
 			// 2.3 update the distance if necessary
 			if (!startVertexDistanceIndex.containsKey(curAdjacentVertex)
 			|| startVertexDistanceIndex.get(curAdjacentVertex) > distance) {
+				// 在更新權重前，先將頂點自佇列中移除。
+				// 避免直接修改已被 Queue 參照的物件屬性，導致 Heap invariants 被破壞。
+				vertexCandidateQueue.remove(curAdjacentVertex);
+
 				startVertexDistanceIndex.put(curAdjacentVertex, distance);
 
 				predecessorIndex.put(curAdjacentVertex, vertex);
